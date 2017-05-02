@@ -54,12 +54,12 @@ app.post('/webhook', function (req, res) {
 
         else if (message && text.includes('kyle')) {
                   // res.send(message.text);
-                  sendMessage_text(event.sender.id, {text: "Yo! Kyle Potter is the gayest person in the world!!"});
+                  sendMessage_text(event.sender.id, {text: "Yo! Kyle Potter is the smartest person in the world!!"});
         }
 
         else if (message && text.includes('joe')) {
                   // res.send(message.text);
-                  sendMessage_text(event.sender.id, {text: "Yo! Joe is the smartest person in the world!!"});
+                  sendMessage_text(event.sender.id, {text: "Yo! Joe is the second smartest person in the world!!"});
         }
 
         else if (message && (text.includes('help') && text.includes('/'))) {
