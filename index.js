@@ -78,6 +78,7 @@ app.post('/webhook', function (req, res) {
         else if (message && text.includes('creators')) {
                   // res.send(message.text);
                   sendMessage_text(event.sender.id, {text: "Yo! This app is created by JMCZ and Kpotts!!"});
+
         }
 
         else if (message && (text.includes('help') && text.includes('/'))) {
