@@ -12,6 +12,17 @@ app.get('/', function (req, res) {
     res.send('This is TestBot Server - fuck off!');
 });
 
+// Facebook Webhook
+app.get('/webhook', function (req, res) {
+    if (req.query['hub.verify_token'] === 'testbot_verify_token') {
+        res.send(req.query['hub.challenge']);
+    } else {
+        res.send('Invalid verify token');
+    }
+});
+
+
+
 // handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
@@ -52,26 +63,37 @@ app.post('/webhook', function (req, res) {
                     sendPrice(event.sender.id, 'bitcoin');
         }
 
-        else if (message && text.includes('kyle')) {
-                  // res.send(message.text);
-                  sendMessage_text(event.sender.id, {text: "Yo! Kyle Potter is the gayest person in the world!!"});
+        else if (message && (text.includes('digix') || text.includes('DGX') || text.includes('DGD') || text.includes('digixdao') || text.includes('gold'))) {
+                    sendPrice(event.sender.id, 'digixdao');
         }
 
-        else if (message && text.includes('joe')) {
+        else if (message && (text.includes('iconomi') || text.includes('ICN') || text.includes('ICO'))) {
+                    sendPrice(event.sender.id, 'iconomi');
+        }
+
+        else if (message && (text.includes('EDG') || text.includes('edgeless') || text.includes('casino') || text.includes('gambling'))) {
+                    sendPrice(event.sender.id, 'edgeless');
+        }
+
+        else if (message && text.includes('creators')) {
                   // res.send(message.text);
-                  sendMessage_text(event.sender.id, {text: "Yo! Joe is the smartest person in the world!!"});
+                  sendMessage_text(event.sender.id, {text: "Yo! This app is created by JMCZ and Kpotts!!"});
         }
 
         else if (message && (text.includes('help') && text.includes('/'))) {
-                  sendMessage_text(event.sender.id, {text: "Currently only available command is '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
+                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
         }
+
+        // else if (message && (text.includes('learn') && text.includes('/'))) {
+        //           sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
+        // }
 
         else if (message && (text.includes('price_checking') && text.includes('/'))) {
                   sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, /FirstBlood, /Golem, /SingularDTV, /Augur"});
         }
 
         else if (message && text) {
-              sendMessage_text(event.sender.id, {text: randomM()});
+              sendMessage_text(event.sender.id, {text: random_handler()});
         }
     }
 
@@ -80,7 +102,7 @@ app.post('/webhook', function (req, res) {
 
 
 
-function randomM() {
+function random_handler() {
 
   var response = [
     "I am sorry, I didn't understand you! Try to type a crypto ticker or project name to start...",
@@ -95,6 +117,30 @@ function randomM() {
   var random = Math.floor(Math.random()*response.length);
   return response[random]
 }
+
+
+function learn(name) {
+  var projects = {
+    firstblood: {
+      founding_date:'09-26-2016',
+      platform:'Ethereum',
+      description: 'Decentralized Esports Platform that allows users to be rewarded by playing competitive matches',
+      website: 'https://fb.io',
+      community: 'slack, forum, discord and forum'
+    },
+    golem: {
+      founding_date:'09-26-2016',
+      platform:'Ethereum',
+      description: 'Decentralized Esports Platform that allows users to be rewarded by playing competitive matches',
+      website: 'https://fb.io',
+      community: 'slack, forum, discord and forum'
+    }
+
+  }
+}
+
+
+
 // helper function to print out number way nicer!
 
 function formatNumber (num) {
@@ -112,7 +158,7 @@ function sendMessage_text(recipientId, message) {
             message: message,
         }
     }, function(error, response, body) {
-        if (error) {
+        i f (error) {
             console.log('Error sending message: ', error);
         } else if (response.body.error) {
             console.log('Error: ', response.body.error);
