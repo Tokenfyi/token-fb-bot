@@ -55,14 +55,6 @@ app.post('/webhook', function (req, res) {
                     sendPrice(event.sender.id, 'golem-network-tokens');
         }
 
-        else if (message && (text.includes('doge') || text.includes('doge') || text.includes('dogecoin'))) {
-                    sendPrice(event.sender.id, 'dogecoin');
-        }
-
-        else if (message && (text.includes('btc') || text.includes('bitcoin') || text.includes('Bitcoin') || text.includes('BTC'))) {
-                    sendPrice(event.sender.id, 'bitcoin');
-        }
-
         else if (message && (text.includes('digix') || text.includes('DGX') || text.includes('DGD') || text.includes('digixdao') || text.includes('gold'))) {
                     sendPrice(event.sender.id, 'digixdao');
         }
@@ -74,6 +66,17 @@ app.post('/webhook', function (req, res) {
         else if (message && (text.includes('EDG') || text.includes('edgeless') || text.includes('casino') || text.includes('gambling'))) {
                     sendPrice(event.sender.id, 'edgeless');
         }
+
+        //Ethereum Tokens
+
+        else if (message && (text.includes('doge') || text.includes('doge') || text.includes('dogecoin'))) {
+                    sendPrice(event.sender.id, 'dogecoin');
+        }
+
+        else if (message && (text.includes('btc') || text.includes('bitcoin') || text.includes('Bitcoin') || text.includes('BTC'))) {
+                    sendPrice(event.sender.id, 'bitcoin');
+        }
+
 
         else if (message && text.includes('creators')) {
                   // res.send(message.text);
