@@ -167,7 +167,7 @@ function sendMessage_text(recipientId, message) {
             message: message,
         }
     }, function(error, response, body) {
-        i f (error) {
+        if (error) {
             console.log('Error sending message: ', error);
         } else if (response.body.error) {
             console.log('Error: ', response.body.error);
