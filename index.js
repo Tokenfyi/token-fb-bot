@@ -36,45 +36,49 @@ app.post('/webhook', function (req, res) {
 
 
         if (message && (text.includes('1st') || text.includes('firstblood') || text.includes('esports') || text.includes('1ST') || text.includes('FirstBlood'))) {
-                    sendPrice(event.sender.id, 'first-blood');
+                    sendPrice(event.sender.id, 'first-blood', '$1ST');
         }
 
         else if (message && (text.includes('eth') || text.includes('ethereum') || text.includes('ether') || text.includes('ETH'))) {
-                    sendPrice(event.sender.id, 'ethereum');
+                    sendPrice(event.sender.id, 'ethereum', '$ETH');
         }
 
         else if (message && (text.includes('augur') || text.includes('rep') || text.includes('REP') || text.includes('Augur') || text.includes('prediction') || text.includes('Predict'))) {
-                    sendPrice(event.sender.id, 'augur');
+                    sendPrice(event.sender.id, 'augur', '$REP');
         }
 
         else if (message && (text.includes('singulardtv') || text.includes('SNGLS') || text.includes('singular') || text.includes('SingularDTV') || text.includes('entertainment'))) {
-                    sendPrice(event.sender.id, 'singulardtv');
+                    sendPrice(event.sender.id, 'singulardtv', '$SNGLS');
         }
 
         else if (message && (text.includes('gnt') || text.includes('golem') || text.includes('Golem') || text.includes('Decentralized Computing'))) {
-                    sendPrice(event.sender.id, 'golem-network-tokens');
+                    sendPrice(event.sender.id, 'golem-network-tokens', '$GNT');
         }
 
         else if (message && (text.includes('digix') || text.includes('DGX') || text.includes('DGD') || text.includes('digixdao') || text.includes('gold'))) {
-                    sendPrice(event.sender.id, 'digixdao');
+                    sendPrice(event.sender.id, 'digixdao', '$DGX');
         }
 
         else if (message && (text.includes('iconomi') || text.includes('ICN') || text.includes('ICO'))) {
-                    sendPrice(event.sender.id, 'iconomi');
+                    sendPrice(event.sender.id, 'iconomi', '$ICN');
         }
 
         else if (message && (text.includes('EDG') || text.includes('edgeless') || text.includes('casino') || text.includes('gambling'))) {
-                    sendPrice(event.sender.id, 'edgeless');
+                    sendPrice(event.sender.id, 'edgeless', '$EDG');
+        }
+
+        else if (message && (text.includes('Gnosis') || text.includes('WIZ') || text.includes('GNO') || text.includes('gnosis'))) {
+                    sendPrice(event.sender.id, 'gnosis-gno', '$GNO');
         }
 
         //Ethereum Tokens
 
         else if (message && (text.includes('doge') || text.includes('doge') || text.includes('dogecoin'))) {
-                    sendPrice(event.sender.id, 'dogecoin');
+                    sendPrice(event.sender.id, 'dogecoin', '$DOGE');
         }
 
         else if (message && (text.includes('btc') || text.includes('bitcoin') || text.includes('Bitcoin') || text.includes('BTC'))) {
-                    sendPrice(event.sender.id, 'bitcoin');
+                    sendPrice(event.sender.id, 'bitcoin', '$BTC');
         }
 
 
@@ -85,15 +89,15 @@ app.post('/webhook', function (req, res) {
         }
 
         else if (message && (text.includes('help') && text.includes('/'))) {
-                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
+                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/tokens'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
         }
 
         // else if (message && (text.includes('learn') && text.includes('/'))) {
         //           sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
         // }
 
-        else if (message && (text.includes('price_checking') && text.includes('/'))) {
-                  sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, /FirstBlood, /Golem, /SingularDTV, /Augur"});
+        else if (message && (text.includes('tokens') && text.includes('/'))) {
+                  sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, /Augur, /FirstBlood, /Golem, /SingularDTV, /Gnosis, /DigixDAO, /Edgeless, /Dogecoin, /Iconomi"});
         }
 
         else if (message && text) {
@@ -115,7 +119,8 @@ function random_handler() {
     "I don't seem to understand, luckily my master is trying to make me smarter! In the mean time, could you type a crypto project to start?",
     "Blah blah blah blah. It's not you! It's me! Have you tried to type '/help' to see how you can talk to me yet?",
     "Are you speaking Korean? Because I can't understand you! Try '/help'!",
-    "Please don't talk human to me, I only understand commands! My creator made me this way! Try '/help' command"
+    "Please don't talk human to me, I only understand commands! My creator made me this way! Try '/help' command",
+    "Did you just type a project? We haven't listed that in our backend yet! Contact us at human@token.fyi to list it"
   ];
 
   var random = Math.floor(Math.random()*response.length);
@@ -174,7 +179,7 @@ function sendMessage_text(recipientId, message) {
 
 
 // generic function sending messages
-function sendPrice(recipientId, ticker) {
+function sendPrice(recipientId, ticker, name) {
   var link = 'https://api.coinmarketcap.com/v1/ticker/' + ticker + '/';
   request(link, function(err,res,body){
     if(err) {
@@ -194,7 +199,7 @@ function sendPrice(recipientId, ticker) {
           method: 'POST',
           json: {
               recipient: {id: recipientId},
-              message: {text: 'You asked for ' + ticker + '? Here you go...\n' + 'Current Price: $' + spot + '\n' + 'Total Volume: $' + formatNumber(volume) + '\n' + 'Market Cap: $' + formatNumber(cap) + '\n' + ':D I am also 99.99% confident that tomorrow the price will be between $' + predict_down.toFixed(4) + ' to $' + predict_up.toFixed(4)},
+              message: {text: 'You asked for ' + name + '? Here you go...\n' + 'Current Price: $' + spot + '\n' + 'Total Volume: $' + formatNumber(volume) + '\n' + 'Market Cap: $' + formatNumber(cap) + '\n' + ':D I am also 99.99% confident that tomorrow the price will be between $' + predict_down.toFixed(4) + ' to $' + predict_up.toFixed(4)},
           }
       }, function(error, response, body) {
           if (error) {
