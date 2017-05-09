@@ -22,7 +22,6 @@ app.get('/webhook', function (req, res) {
 });
 
 
-
 // handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
@@ -35,8 +34,10 @@ app.post('/webhook', function (req, res) {
         // console.log('2 text is:', message.text);
 
 
+        //Ethereum Tokens Starting Here
+
         if (message && (text.includes('1st') || text.includes('firstblood') || text.includes('esports') || text.includes('1ST') || text.includes('FirstBlood'))) {
-                    sendPrice(event.sender.id, 'first-blood', '$1ST');
+                    sendPrice(event.sender.id, 'firstblood', '$1ST');
         }
 
         else if (message && (text.includes('eth') || text.includes('ethereum') || text.includes('ether') || text.includes('ETH'))) {
@@ -71,7 +72,12 @@ app.post('/webhook', function (req, res) {
                     sendPrice(event.sender.id, 'gnosis-gno', '$GNO');
         }
 
-        //Ethereum Tokens
+        //Ethereum Tokens Ends Here
+
+        //Added: digibyte
+        else if (message && (text.includes('digibyte') || text.includes('digibyte coin') || text.includes('DGB'))) {
+                    sendPrice(event.sender.id, 'digibyte', '$DGB');
+        }
 
         else if (message && (text.includes('doge') || text.includes('doge') || text.includes('dogecoin'))) {
                     sendPrice(event.sender.id, 'dogecoin', '$DOGE');
@@ -81,6 +87,7 @@ app.post('/webhook', function (req, res) {
                     sendPrice(event.sender.id, 'bitcoin', '$BTC');
         }
 
+        //Misc Handlers
 
         else if (message && text.includes('creators')) {
                   // res.send(message.text);
@@ -89,15 +96,29 @@ app.post('/webhook', function (req, res) {
         }
 
         else if (message && (text.includes('help') && text.includes('/'))) {
-                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/tokens'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
+                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help', '/tokens' and 'learn [project name]'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
         }
 
-        // else if (message && (text.includes('learn') && text.includes('/'))) {
-        //           sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
-        // }
+        else if (message && (text.includes('learn') && text.includes('/'))) {
+                  sendMessage_text(event.sender.id, {text: "Currently only available commands are '/help' and '/price_checking'; \n\n You may check your favorite project by typing their name directly, and leave the rest to me! \n\n For example, 'Check Ethereum' or 'Check FirstBlood'... \n\n I am also pretty smart too, you can try to type keywords like 'Esports or Prediction', I will be able to give you the answer!"});
+        }
 
         else if (message && (text.includes('tokens') && text.includes('/'))) {
                   sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, /Augur, /FirstBlood, /Golem, /SingularDTV, /Gnosis, /DigixDAO, /Edgeless, /Dogecoin, /Iconomi"});
+        }
+
+        // Learning Intents Starts Here:
+
+        else if (message && (text.includes('learn') && (text.includes('augur') || text.includes('rep') || text.includes('REP') || text.includes('Augur') || text.includes('prediction') || text.includes('Predict')))) {
+                  sendMessage_text(event.sender.id, {text: learn('augur')});
+        }
+
+        else if (message && (text.includes('learn') && (text.includes('1st') || text.includes('firstblood') || text.includes('esports') || text.includes('1ST') || text.includes('FirstBlood')))) {
+                  sendMessage_text(event.sender.id, {text: learn('firstblood')});
+        }
+
+        else if (message && (text.includes('learn') && (text.includes('gnt') || text.includes('golem') || text.includes('Golem') || text.includes('Decentralized Computing')))) {
+                  sendMessage_text(event.sender.id, {text: learn('golem')});
         }
 
         else if (message && text) {
@@ -131,21 +152,45 @@ function random_handler() {
 function learn(name) {
   var projects = {
     firstblood: {
-      founding_date:'09-26-2016',
       platform:'Ethereum',
-      description: 'Decentralized Esports Platform that allows users to be rewarded by playing competitive matches',
+      description: 'FirstBlood.io (“FirstBlood”) is a decentralized Esports gaming platform that is powered by the blockchain',
       website: 'https://fb.io',
-      community: 'slack, forum, discord and forum'
+      community: 'slack, forum, and discord'
     },
     golem: {
-      founding_date:'09-26-2016',
       platform:'Ethereum',
-      description: 'Decentralized Esports Platform that allows users to be rewarded by playing competitive matches',
-      website: 'https://fb.io',
-      community: 'slack, forum, discord and forum'
-    }
+      description: 'Golem ("Golem Network") is going to create the first decentralized global market for computing power',
+      website: 'https://golem.network',
+      community: 'slack, reddit and forum'
+    },
+    augur: {
+      platform:'Ethereum',
+      description: 'Augur combines the magic of prediction markets with the power of a decentralized network to create a stunningly accurate forecasting tool',
+      website: 'https://augur.net',
+      community: 'slack, redditand forum'
+    },
+    gnosis: {
+      platform:'Ethereum',
+      description: 'Crowd Sourced Wisdom - The next generation blockchain network. Speculate on anything with an easy-to-use prediction market; ',
+      website: 'https://augur.net',
+      community: 'slack, reddit and forum'
+    },
+    singulardtv: {
+        platform:'Ethereum',
+        description: 'A Blockchain Entertainment Studio, Smart Contract Rights Management Platform and Video On-Demand Portal',
+        website: 'https://singulardtv.net',
+        community: 'slack, reddit and forum'
+    },
+    iconomi: {
+        platform:'Ethereum',
+        description: 'ICONOMI Digital Assets Management platform enables simple access to a variety of digital assets and combined Digital Asset Arrays',
+        website: 'https://iconomi.net',
+        community: 'slack, reddit and forum'
+    },
 
   }
+
+  return projects.name.description
 }
 
 
