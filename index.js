@@ -13,12 +13,15 @@ app.get('/', function (req, res) {
 });
 
 // Facebook Webhook
-app.get('/webhook', function (req, res) {
-    if (req.query['hub.verify_token'] === 'testbot_verify_token') {
-        res.send(req.query['hub.challenge']);
-    } else {
-        res.send('Invalid verify token');
-    }
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] === 'testbot_verify_token') {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);
+  }
 });
 
 
@@ -75,8 +78,12 @@ app.post('/webhook', function (req, res) {
         //Ethereum Tokens Ends Here
 
         //Added: digibyte
-        else if (message && (text.includes('digibyte') || text.includes('digibyte coin') || text.includes('DGB'))) {
+        else if (message && (text.includes('digibyte') || text.includes('digibyte coin') || text.includes('DGB') || text.includes('dgb'))) {
                     sendPrice(event.sender.id, 'digibyte', '$DGB');
+        }
+
+        else if (message && (text.includes('litecoin') || text.includes('lite coin') || text.includes('LTC') || text.includes('ltc'))) {
+                    sendPrice(event.sender.id, 'litecoin', '$LTC');
         }
 
         else if (message && (text.includes('doge') || text.includes('doge') || text.includes('dogecoin'))) {
@@ -104,7 +111,7 @@ app.post('/webhook', function (req, res) {
         }
 
         else if (message && (text.includes('tokens') && text.includes('/'))) {
-                  sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, /Augur, /FirstBlood, /Golem, /SingularDTV, /Gnosis, /DigixDAO, /Edgeless, /Dogecoin, /Iconomi"});
+                  sendMessage_text(event.sender.id, {text: "Current Available Projects: /Bitcoin, /Ethereum, ,/Litecoin, /Dogecoin, /Augur, /FirstBlood, /Golem, /SingularDTV, /Gnosis, /DigixDAO, /Edgeless, /Iconomi"});
         }
 
         // Learning Intents Starts Here:
