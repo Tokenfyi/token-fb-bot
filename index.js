@@ -3,6 +3,8 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 
+https://graph.facebook.com/endpoint?key=value&access_token=app_id|app_secret
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 3000));
@@ -15,7 +17,7 @@ app.get('/', function (req, res) {
 // Facebook Webhook
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === 'testbot_verify_token') {
+      req.query['hub.verify_token'] === 'hello_world_12345678') {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
     res.send('Successfully Connected');
